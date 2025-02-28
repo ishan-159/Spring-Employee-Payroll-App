@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Optional;
+
 @RestController
 @RequestMapping("/employee")
 public class EmployeeController {
@@ -25,31 +26,33 @@ public class EmployeeController {
     }
 
     @GetMapping("/get/{id}")
-    public ResponseEntity<Employee> getEmployeeById(@PathVariable Long id) {
-        return employeeService.getEmployeeById(id)
-                .map(ResponseEntity::ok)
-                .orElseGet(() -> ResponseEntity.notFound().build());
+    public Optional<Employee> getEmployeeById(@PathVariable Long id) {
+        return employeeService.getEmployeeById(id);
     }
 
     @PostMapping("/create")
-    public Employee addEmployee(@RequestBody Employee employee) {
+    public Employee createEmployee(@RequestBody Employee employee) {
         return employeeService.createEmployee(employee);
     }
 
     @PostMapping("/createDto")
-    public Employee addEmployeeDto(@RequestBody EmployeeDTO employeeDTO) {
+    public Employee CreateEmployeeDto(@RequestBody EmployeeDTO employeeDTO) {
         Employee employee = new Employee(employeeDTO.getName(), employeeDTO.getSalary());
         return employeeService.createEmployee(employee);
     }
+
 
     @PutMapping("/update/{id}")
     public Employee updateEmployee(@PathVariable Long id, @RequestBody Employee updatedEmployee) {
         return employeeService.updateEmployee(id, updatedEmployee);
     }
 
+
     @DeleteMapping("/delete/{id}")
     public String deleteEmployee(@PathVariable Long id) {
-       employeeService.deleteEmployee(id);
-       return "Employee delete successfully!";
+        employeeService.deleteEmployee(id);
+        return "Employee "+id +" deleted successfully!";
     }
+
+
 }
