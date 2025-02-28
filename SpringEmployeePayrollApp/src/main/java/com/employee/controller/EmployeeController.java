@@ -1,5 +1,6 @@
 package com.employee.controller;
 
+import com.employee.dto.EmployeeDTO;
 import com.employee.model.Employee;
 import com.employee.repository.EmployeeRepository;
 import org.springframework.http.ResponseEntity;
@@ -17,12 +18,12 @@ public class EmployeeController {
         this.employeeRepository = employeeRepository;
     }
 
-    @GetMapping
+    @GetMapping("/all")
     public List<Employee> getEmployees() {
         return employeeRepository.findAll();
     }
 
-    @GetMapping("/{id}")
+    @GetMapping("/get/{id}")
     public ResponseEntity<Employee> getEmployeeById(@PathVariable Long id) {
         return employeeRepository.findById(id)
                 .map(ResponseEntity::ok)
@@ -34,12 +35,18 @@ public class EmployeeController {
         return employeeRepository.save(employee);
     }
 
+    @PostMapping("/createDto")
+    public Employee addEmployeeDto(@RequestBody EmployeeDTO employeeDTO) {
+        Employee employee = new Employee(employeeDTO.getName(), employeeDTO.getSalary());
+        return employeeRepository.save(employee);
+    }
+
     @PutMapping("/update/{id}")
     public ResponseEntity<Employee> updateEmployee(@PathVariable Long id, @RequestBody Employee updatedEmployee) {
         return employeeRepository.findById(id)
                 .map(employee -> {
                     employee.setName(updatedEmployee.getName());
-                    employee.setRole(updatedEmployee.getRole());
+                    employee.setSalary(updatedEmployee.getSalary());
                     Employee savedEmployee = employeeRepository.save(employee);
                     return ResponseEntity.ok(savedEmployee);
                 }).orElseGet(() -> ResponseEntity.notFound().build());

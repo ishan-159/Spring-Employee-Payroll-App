@@ -1,27 +1,15 @@
-package com.employee.model;
+package com.employee.dto;
 
-import jakarta.persistence.*;
-
-@Entity
-@Table(name = "employees")
-public class Employee {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-
+public class EmployeeDTO {
     private String name;
     private double salary;
 
-    public Employee() {
+    public EmployeeDTO() {
     }
 
-    public Employee(String name, double salary) {
+    public EmployeeDTO(String name, double salary) {
         this.name = name;
         this.salary = salary;
-    }
-
-    public Long getId() {
-        return id;
     }
 
     public String getName() {
@@ -37,6 +25,6 @@ public class Employee {
     }
 
     public void setSalary(double salary) {
-          this.salary = salary;
+        this.salary = salary;
     }
 }
