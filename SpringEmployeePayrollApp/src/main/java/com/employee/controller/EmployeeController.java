@@ -37,7 +37,9 @@ public class EmployeeController {
 
     @PostMapping("/createDto")
     public Employee CreateEmployeeDto(@RequestBody EmployeeDTO employeeDTO) {
-        Employee employee = new Employee(employeeDTO.getName(), employeeDTO.getSalary());
+        Employee employee;
+        employee = new Employee(employeeDTO.getName(),
+                employeeDTO.getSalary());
         return employeeService.createEmployee(employee);
     }
 
@@ -53,6 +55,4 @@ public class EmployeeController {
         employeeService.deleteEmployee(id);
         return "Employee "+id +" deleted successfully!";
     }
-
-
 }
