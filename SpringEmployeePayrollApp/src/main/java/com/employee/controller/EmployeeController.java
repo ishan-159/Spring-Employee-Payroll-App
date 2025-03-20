@@ -20,40 +20,43 @@ public class EmployeeController {
     //UC4
     @Autowired
     private EmployeeService employeeService;
-
-
+    
     @GetMapping("/all")
     public List<Employee> getEmployees() {
+        log.info("GET Request: Fetching all employees");
         return employeeService.getAllEmployees();
     }
 
     @GetMapping("/get/{id}")
     public Optional<Employee> getEmployeeById(@PathVariable Long id) {
+        log.info("GET Request: Fetching employee with ID {}", id);
         return employeeService.getEmployeeById(id);
     }
 
     @PostMapping("/create")
     public Employee createEmployee(@RequestBody Employee employee) {
+        log.info("POST Request: Creating employee with data{}", employee);
         return employeeService.createEmployee(employee);
     }
 
     @PostMapping("/createDto")
     public Employee CreateEmployeeDto(@RequestBody EmployeeDTO employeeDTO) {
+        log.info("POST Request: Creating employee DTO with data {}", employeeDTO);
         Employee employee;
         employee = new Employee(employeeDTO.getName(),
                 employeeDTO.getSalary());
         return employeeService.createEmployee(employee);
     }
 
-
     @PutMapping("/update/{id}")
     public Employee updateEmployee(@PathVariable Long id, @RequestBody Employee updatedEmployee) {
+        log.info("PUT Request: Updating employee with ID {}", id);
         return employeeService.updateEmployee(id, updatedEmployee);
     }
 
-
     @DeleteMapping("/delete/{id}")
     public String deleteEmployee(@PathVariable Long id) {
+        log.info("DELETE Request: Deleting employee with ID {}", id);
         employeeService.deleteEmployee(id);
         return "Employee "+id +" deleted successfully!";
     }
