@@ -1,19 +1,16 @@
 package com.employee.service;
 
 
+import com.employee.exceptionhandling.EmployeeNotFoundException;
 import com.employee.model.Employee;
 import com.employee.repository.EmployeeRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
-import org.springframework.web.server.ResponseStatusException;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.swing.text.html.Option;
-import java.util.List;
 import java.util.Optional;
 
 @Slf4j
@@ -41,9 +38,9 @@ public class EmployeeService {
 
     public Optional<Employee> getEmployeeById(Long id) {
         log.info("Fetching employee with ID {}", id);
-        return employeeList.stream().filter(employee -> employee.getId().equals(id)).findFirst();
+        return Optional.ofNullable(employeeList.stream().filter(employee -> employee.getId().equals(id))
+                .findFirst().orElseThrow(() -> new EmployeeNotFoundException(("Employee with ID " + id + " not found!"))));
     }
-
     //update
     public Employee updateEmployee(Long id, Employee updatedEmployee) {
         log.info("Updating employee with ID {}", id);
